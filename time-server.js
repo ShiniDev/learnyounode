@@ -3,19 +3,11 @@
 const net = require("net");
 const PORT = process.argv[2];
 const server = net.createServer((socket) => {
-    console.log("Client Connected");
-    socket.on('end', () => {
-        console.log("Client Disconnected");
-    })
-    // socket.write("Hello Client\n\r");
-    // socket.pipe(socket);
-    socket.end("Hello Client\n\r");
+    const date = new Date();
+    let cd = [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes()];
+    for (let i = 0; i < cd.length; ++i) {
+        if (cd[i] < 10) cd[i] = "0" + cd[i];
+    }
+    socket.end(`${cd[0]}-${cd[1]}-${cd[2]} ${cd[3]}:${cd[4]}\n`);
 });
-
-server.on('error', (err) => {
-    throw err;
-});
-
-server.listen(PORT, () => {
-    console.log("Server Bound");
-});
+server.listen(PORT);
